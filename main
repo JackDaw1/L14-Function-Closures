@@ -1,0 +1,92 @@
+import UIKit
+
+//1 - Функция, принимающая функцию как параметр
+print("№1")
+
+func multipl(_ a: Int, _ b: Int) -> Int { a * b }
+
+func getResult(_ binaryFunc: (Int, Int) -> Int, _ a: Int, _ b: Int) {
+    let result = binaryFunc(a, b)
+    print(result)
+}
+getResult(multipl, 13, 10)
+print(" ")
+
+//2 - Функция с несколькими замыканиями
+print("№2")
+
+func funcWithTwoClosures(closure: () -> Void) {
+    print("1")
+}
+
+funcWithTwoClosures(closure: {
+})
+
+funcWithTwoClosures() {
+}
+print(" ")
+
+
+//3 - Функция с autoclosure
+print("№3")
+
+var arrayOfNumbers = [1,2,3,4,5]
+
+func printName(maxNumber: @autoclosure ()->Int) {
+    print(maxNumber())
+}
+
+if !arrayOfNumbers.isEmpty {
+    printName(maxNumber: arrayOfNumbers.max()!)
+}
+print(" ")
+
+//4 - Использование внутренних функций
+print("№4")
+
+func operate(symbol: String) -> (_ a: Double, _ b: Double) -> Double {
+
+    func multiplication(num1: Double, num2: Double) -> Double {
+      return num1 * num2
+    }
+
+    func addition(num1: Double, num2: Double) -> Double {
+      return num1 + num2
+    }
+    
+    func substraction(num1: Double, num2: Double) -> Double {
+            return num1 - num2
+    }
+    
+    func divide(num1: Double, num2: Double) -> Double {
+            return num1 / num2
+    }
+    
+    var operation = addition
+    
+    switch symbol {
+    case "+":
+        operation = addition
+    case "-":
+        operation = substraction
+    case "*":
+        operation = multiplication
+    case "/":
+        operation = divide
+    default:
+        print("I don't know you want")
+    }
+    return operation
+}
+
+let operation = operate(symbol: "*")
+let result = operation(5, 8)
+print(result)
+print(" ")
+
+//5 - Дженерик-функция с условием
+print("№5")
+
+func addition<T>(a: T, b: T) -> T where T: Numeric { a + b }
+
+print(addition(a: 10, b: 10))
